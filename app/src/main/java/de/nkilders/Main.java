@@ -5,7 +5,7 @@ public class Main {
   public static void main(String[] args) throws Exception {
     System.out.println("[App] main() called");
 
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 3; i++) {
       System.out.println("[App] Loop iteration: " + i);
       Thread.sleep(500);
     }
