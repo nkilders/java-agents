@@ -14,6 +14,7 @@ public class AgentMain {
    */
   public static void premain(String agentArgs, Instrumentation inst) {
     IO.println("[Agent] premain() called");
+    IO.println("[Agent] Agent args: " + agentArgs);
 
     inst.addTransformer(new LoggingTransformer());
   }
@@ -23,6 +24,7 @@ public class AgentMain {
    */
   public static void agentmain(String agentArgs, Instrumentation inst) {
     IO.println("[Agent] agentmain() called");
+    IO.println("[Agent] Agent args: " + agentArgs);
 
     inst.addTransformer(new LoggingTransformer());
   }

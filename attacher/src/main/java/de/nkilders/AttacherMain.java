@@ -11,7 +11,7 @@ public class AttacherMain {
     var agentPath = args[1];
 
     var jvm = VirtualMachine.attach(appPid);
-    jvm.loadAgent(agentPath);
+    jvm.loadAgent(agentPath, "some dynamic args");
     jvm.detach();
   }
 }
