@@ -9,12 +9,18 @@ public class AgentMain {
     IO.println("[Agent] main() called");
   }
 
+  /**
+   * Called on static attach via JVM argument
+   */
   public static void premain(String agentArgs, Instrumentation inst) {
     IO.println("[Agent] premain() called");
 
     inst.addTransformer(new LoggingTransformer());
   }
 
+  /**
+   * Called on dynamic attach via Attach API
+   */
   public static void agentmain(String agentArgs, Instrumentation inst) {
     IO.println("[Agent] agentmain() called");
 
