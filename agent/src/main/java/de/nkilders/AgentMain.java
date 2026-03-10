@@ -1,7 +1,10 @@
 package de.nkilders;
 
-import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
+
+import de.nkilders.transformer.TracingTransformer;
+import net.bytebuddy.agent.builder.AgentBuilder;
+import net.bytebuddy.matcher.ElementMatchers;
 
 public class AgentMain {
 
@@ -16,7 +19,7 @@ public class AgentMain {
     IO.println("[Agent] premain() called");
     IO.println("[Agent] Agent args: " + agentArgs);
 
-    inst.addTransformer(new LoggingTransformer());
+    startAgent(agentArgs, inst);
   }
 
   /**
@@ -26,20 +29,24 @@ public class AgentMain {
     IO.println("[Agent] agentmain() called");
     IO.println("[Agent] Agent args: " + agentArgs);
 
-    inst.addTransformer(new LoggingTransformer());
+    startAgent(agentArgs, inst);
   }
 
-  private static final class LoggingTransformer implements ClassFileTransformer {
+  // ====================================================================================== //
 
-    @Override
-    public byte[] transform(
-        ClassLoader loader,
-        String className,
-        Class<?> classBeingRedefined,
-        java.security.ProtectionDomain protectionDomain,
-        byte[] classfileBuffer) {
-      IO.println("[Agent] Transforming class: " + className);
-      return null; // Return null to indicate no transformation
-    }
+  private static void startAgent(String agentArgs, Instrumentation inst) {
+    // inst.addTransformer(new LoggingTransformer());
+
+    var ignore =
+      ElementMatchers.nameStartsWith("net.bytebuddy.")
+        .or(ElementMatchers.nameStartsWith("jdk."))
+        .or(ElementMatchers.nameStartsWith("java."))
+        .or(ElementMatchers.nameStartsWith("sun."));
+
+    new AgentBuilder.Default().ignore(ignore)
+      .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+      .type(ElementMatchers.any())
+      .transform(new TracingTransformer())
+      .installOn(inst);
   }
 }

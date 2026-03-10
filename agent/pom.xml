@@ -11,6 +11,29 @@
 
     <artifactId>agent</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy-parent</artifactId>
+                <version>1.17.8</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
         <plugins>
             <plugin>
@@ -31,8 +54,8 @@
                                         <Agent-Class>de.nkilders.AgentMain</Agent-Class>
                                         <Premain-Class>de.nkilders.AgentMain</Premain-Class>
 
-                                        <!-- <Can-Redefine-Classes>true</Can-Redefine-Classes> -->
-                                        <!-- <Can-Retransform-Classes>true</Can-Retransform-Classes> -->
+                                        <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                                        <Can-Retransform-Classes>true</Can-Retransform-Classes>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
